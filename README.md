@@ -112,7 +112,9 @@ mvn -Dfile.encoding=UTF-8 smart-doc:torna-rest
 // Generate document output to Word.
 mvn -Dfile.encoding=UTF-8 smart-doc:word
 // Generate Jmeter performance pressure test scripts.
-mvn -Dfile.encoding=UTF-8 smart-doc:
+mvn -Dfile.encoding=UTF-8 smart-doc:jmeter
+// Generate several formats from one parse instead of parsing the sources once per format.
+mvn -Dfile.encoding=UTF-8 smart-doc:generate -Dformats=markdown,html,adoc,openapi
 
 
 // Apache Dubbo RPC
