@@ -126,6 +126,68 @@ mvn -Dfile.encoding=UTF-8 smart-doc:rpc-markdown
 mvn -Dfile.encoding=UTF-8 smart-doc:rpc-adoc
 ```
 
+#### Generate several formats in one execution
+
+`smart-doc:generate` writes several output formats from a single source scan. Formats that need
+the same parse flags share one parse, so one execution is faster than binding one goal per format.
+
+Run it from the command line:
+
+```
+// Single format. When formats is omitted the default is markdown.
+mvn -Dfile.encoding=UTF-8 smart-doc:generate -Dformats=markdown
+
+// Several formats. formats is comma separated and case-insensitive.
+mvn -Dfile.encoding=UTF-8 smart-doc:generate -Dformats=markdown,html,adoc,openapi
+
+// Everything except Torna.
+mvn -Dfile.encoding=UTF-8 smart-doc:generate -Dformats=markdown,html,adoc,word,openapi,jmeter,postman
+```
+
+Or bind it to the build in `pom.xml`:
+
+```
+<plugin>
+    <groupId>com.ly.smart-doc</groupId>
+    <artifactId>smart-doc-maven-plugin</artifactId>
+    <version>[latest version]</version>
+    <configuration>
+        <configFile>./src/main/resources/smart-doc.json</configFile>
+        <formats>markdown,html,adoc,openapi</formats>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+
+Supported values:
+
+| Value | Aliases | Output |
+|-------|---------|--------|
+| `markdown` | `md` | `AllInOne.md`, or one `.md` per controller when `allInOne` is false |
+| `adoc` | `asciidoc` | `index.adoc` |
+| `html` | | `index.html`, debug page and `search.js` |
+| `word` | `docx` | `AllInOne.docx` |
+| `openapi` | `openapi3` | `openapi.json` (OpenAPI 3.1) |
+| `swagger` | `openapi2` | `openapi.json` (Swagger 2.0) |
+| `jmeter` | | JMeter performance test script |
+| `postman` | | `postman.json` |
+
+Notes:
+
+- An unknown value fails with the list of supported formats.
+- Do not combine `openapi` and `swagger` in one execution: both write `openapi.json` and the
+  latter overwrites the former.
+- Torna is not part of `generate` because it pushes documents to a remote server. Keep using
+  `smart-doc:torna-rest` for that.
+- Parses are shared by formats with the same flags: markdown, html and word share one parse,
+  jmeter and postman share another, adoc and openapi each need their own.
+
 **Note:** Under the window system, if you use the maven command line to perform document generation,
 non-English characters may be garbled, so you need to specify `-Dfile.encoding = UTF-8` during execution.
 
