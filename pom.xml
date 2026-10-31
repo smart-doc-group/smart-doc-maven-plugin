@@ -34,7 +34,7 @@
     </developers>
 
     <properties>
-        <smart-doc.version>4.0.0</smart-doc.version>
+        <smart-doc.version>4.0.1</smart-doc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.pluging.version>3.8.6</maven.pluging.version>
         <maven.pluging.annotations.version>3.8.2</maven.pluging.annotations.version>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.github.shalousun</groupId>
             <artifactId>smart-doc</artifactId>
-            <version>4.0.0</version>
+            <version>${smart-doc.version}</version>
         </dependency>
     </dependencies>
     <build>
