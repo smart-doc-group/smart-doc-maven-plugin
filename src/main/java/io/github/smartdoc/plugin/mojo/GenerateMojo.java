@@ -1,0 +1,66 @@
+/*
+ * smart-doc
+ *
+ * Copyright (C) 2018-2026 smart-doc
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+package io.github.smartdoc.plugin.mojo;
+
+import io.github.smartdoc.generation.DocGenerator;
+import io.github.smartdoc.model.ApiConfig;
+import io.github.smartdoc.plugin.constant.MojoConstants;
+import com.thoughtworks.qdox.JavaProjectBuilder;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
+/**
+ * Generate several documentation formats from one parse.
+ * <p>
+ * Formats that share the same parse flags reuse one parse result, so binding this goal
+ * is faster than running one goal per format.
+ *
+ * @author smart-doc
+ */
+@Execute(phase = LifecyclePhase.COMPILE)
+@Mojo(name = MojoConstants.GENERATE_MOJO, requiresDependencyResolution = ResolutionScope.COMPILE)
+public class GenerateMojo extends BaseDocsGeneratorMojo {
+
+    /**
+     * Comma separated output formats. Supported values are markdown, adoc, html, word,
+     * openapi, swagger, jmeter and postman.
+     */
+    @Parameter(property = "formats", defaultValue = "markdown")
+    private String formats;
+
+    @Override
+    public void executeMojo(ApiConfig apiConfig, JavaProjectBuilder javaProjectBuilder) {
+        try {
+            DocGenerator.generate(apiConfig, javaProjectBuilder, formats);
+        } catch (Throwable e) {
+            getLog().error(e);
+            if (apiConfig.isStrict()) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+    }
+
+}

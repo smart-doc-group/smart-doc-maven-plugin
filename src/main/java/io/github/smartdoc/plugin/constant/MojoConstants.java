@@ -27,6 +27,11 @@ package io.github.smartdoc.plugin.constant;
  */
 public interface MojoConstants {
     /**
+     * generate several formats from one parse
+     */
+    String GENERATE_MOJO = "generate";
+
+    /**
      * api-adoc
      */
     String ADOC_MOJO = "adoc";
