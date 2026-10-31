@@ -34,7 +34,7 @@ automatically push the documents to the Torna enterprise-level interface documen
 
 ```
 <plugin>
-    <groupId>com.ly.smart-doc</groupId>
+    <groupId>com.github.shalousun</groupId>
     <artifactId>smart-doc-maven-plugin</artifactId>
     <version>[latest version]</version>
     <configuration>
@@ -148,7 +148,7 @@ Or bind it to the build in `pom.xml`:
 
 ```
 <plugin>
-    <groupId>com.ly.smart-doc</groupId>
+    <groupId>com.github.shalousun</groupId>
     <artifactId>smart-doc-maven-plugin</artifactId>
     <version>[latest version]</version>
     <configuration>

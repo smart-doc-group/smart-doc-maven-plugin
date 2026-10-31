@@ -31,7 +31,7 @@ smart-doc + [Torna](http://torna.cn) 组成行业领先的文档生成和管理�
 
 ```
 <plugin>
-    <groupId>com.ly.smart-doc</groupId>
+    <groupId>com.github.shalousun</groupId>
     <artifactId>smart-doc-maven-plugin</artifactId>
     <version>【最新版】</version>
     <configuration>
